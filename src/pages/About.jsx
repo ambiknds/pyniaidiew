@@ -1,6 +1,6 @@
 function About() {
     return (
-      <div className="max-w-2xl mx-auto my-8">
+      <div className="max-w-2xl mx-4 md:mx-auto my-8">
         <h1 className="text-3xl font-bold mb-4">About Pyniaidiew</h1>
         <p className="mb-4">
           Pyniaidiew is your trusted source for product recommendations and reviews. Our mission is to help you make informed decisions about your purchases by providing honest, unbiased information about a wide range of products and services.

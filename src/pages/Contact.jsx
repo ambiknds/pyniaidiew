@@ -1,6 +1,6 @@
 function Contact() {
     return (
-      <div className="max-w-2xl mx-auto my-4">
+      <div className="max-w-2xl mx-4 md:mx-auto my-4">
         <h1 className="text-3xl text-center font-bold mb-4">Contact Us</h1>
         <p className="mb-4">
           We'd love to hear from you! Whether you have a question about a product, want to suggest a review, or just want to say hello, feel free to reach out to us using the form below.
