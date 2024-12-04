@@ -10,7 +10,7 @@ function ProductListingPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://fakestoreapi.com/products');
+        const response = await axios.get('https://pyniaidiew-api.vercel.app/api/products');
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);

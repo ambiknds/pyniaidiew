@@ -16,7 +16,8 @@ function SearchBar() {
       if (query.length > 2) {
         setIsLoading(true);
         try {
-          const response = await axios.get(`https://fakestoreapi.com/products`);
+          // const response = await axios.get(`https://fakestoreapi.com/products`);
+          const response = await axios.get(`https://pyniaidiew-api.vercel.app/api/products`);
           const filteredProducts = response.data.filter((product) =>
             product.title.toLowerCase().includes(query.toLowerCase())
           );

@@ -9,9 +9,9 @@ function ProductDetailPage() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `https://fakestoreapi.com/products/${id}`
-        );
+        const response = await axios.get(`https://pyniaidiew-api.vercel.app/api/products/${id}`);
+        console.log(response);
+        
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product:', error);
@@ -40,7 +40,7 @@ function ProductDetailPage() {
           <p className="text-gray-700 mb-4">{product.description}</p>
           <p className="text-2xl font-bold mb-4">₹{product.price.toFixed(2)}</p>
           <button className="bg-gray-900 text-white border-black rounded-xl shadow px-3 py-2">
-            <Link to="/">Buy Now </Link>
+            <Link to={product.url} target='_blank'>Buy Now </Link>
           </button>
         </div>
       </div>

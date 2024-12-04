@@ -8,7 +8,8 @@ export default function FeaturedProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://fakestoreapi.com/products');
+        const response = await axios.get('https://pyniaidiew-api.vercel.app/api/products');
+        
         const shuffled = response.data.sort(() => 0.5 - Math.random());
         setProducts(shuffled.slice(0, 9));
       } catch (error) {
