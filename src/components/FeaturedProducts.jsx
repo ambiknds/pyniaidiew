@@ -38,7 +38,7 @@ export default function FeaturedProducts() {
               <h2 className="font-bold text-lg mb-2 truncate">
                 {product.title}
               </h2>
-              <p className="text-gray-700">₹{product.price.toFixed(2)}</p>
+              {/* <p className="text-gray-700">₹{product.price.toFixed(2)}</p> */}
             </div>
           </Link>
         ))}
