@@ -8,6 +8,7 @@ import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import About from './pages/About'
 import Contact from './pages/Contact'
+import DentistryClinic from './pages/Dental'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/products" element={<ProductListingPage />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/about" element={<About />} />
+          <Route path="/dental" element={<DentistryClinic />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
