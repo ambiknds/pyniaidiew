@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { searchProducts, searchShops } from '../services/api';
 
 function SearchBar() {
   const [query, setQuery] = useState('');
@@ -16,12 +16,22 @@ function SearchBar() {
       if (query.length > 2) {
         setIsLoading(true);
         try {
-          // const response = await axios.get(`https://fakestoreapi.com/products`);
-          const response = await axios.get(`https://pyniaidiew-api.vercel.app/api/products`);
-          const filteredProducts = response.data.filter((product) =>
-            product.title.toLowerCase().includes(query.toLowerCase())
-          );
-          setSuggestions(filteredProducts.slice(0, 5));
+          const [p, s] = await Promise.all([
+            searchProducts(query),
+            searchShops(query),
+          ]);
+          const productItems = (p || []).slice(0, 5).map(item => ({
+            type: 'product',
+            id: item.id,
+            title: item.title,
+          }));
+          const shopItems = (s || []).slice(0, 5).map(item => ({
+            type: 'shop',
+            id: item.id || item._id,
+            title: item.title || item.name || item.shopName,
+            category: item.category || item.type || item.shopType,
+          }));
+          setSuggestions([...productItems, ...shopItems].slice(0, 8));
         } catch (error) {
           console.error('Error fetching suggestions:', error);
         }
@@ -54,13 +64,19 @@ function SearchBar() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (query) {
-      navigate(`/products?search=${encodeURIComponent(query)}`);
+      navigate(`/search?q=${encodeURIComponent(query)}`);
       setShowSuggestions(false);
     }
   };
 
-  const handleSuggestionClick = (productId) => {
-    navigate(`/product/${productId}`);
+  const handleSuggestionClick = (item) => {
+    if (item.type === 'product' && item.id) {
+      navigate(`/product/${item.id}`);
+    } else if (item.type === 'shop' && item.id && item.category) {
+      navigate(`/${item.category}/${item.id}`);
+    } else {
+      navigate(`/search?q=${encodeURIComponent(query)}`);
+    }
     setShowSuggestions(false);
     setQuery('');
   };
@@ -70,7 +86,7 @@ function SearchBar() {
       <form onSubmit={handleSearch} className="relative">
         <input
           type="text"
-          placeholder="Search products..."
+          placeholder="Search products and shops..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setShowSuggestions(true)}
@@ -86,13 +102,14 @@ function SearchBar() {
             <div className="p-2 text-gray-700">Loading...</div>
           ) : suggestions.length > 0 ? (
             <ul>
-              {suggestions.map((product) => (
+              {suggestions.map((sugg, idx) => (
                 <li
-                  key={product.id}
-                  onClick={() => handleSuggestionClick(product.id)}
+                  key={`${sugg.type}-${sugg.id}-${idx}`}
+                  onClick={() => handleSuggestionClick(sugg)}
                   className="px-4 text-gray-700 py-2 hover:bg-gray-100 cursor-pointer"
                 >
-                  {product.title}
+                  {sugg.title}
+                  <span className="ml-2 text-xs uppercase text-gray-400">{sugg.type}</span>
                 </li>
               ))}
             </ul>

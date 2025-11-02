@@ -28,6 +28,7 @@ function Header() {
           <div className="hidden md:flex space-x-4">
             <Link to="/" className="hover:text-gray-300">Home</Link>
             <Link to="/about" className="hover:text-gray-300">About</Link>
+            <Link to="/dental" className="hover:text-gray-300">Dental</Link>
             <Link to="/contact" className="hover:text-gray-300">Contact</Link>
           </div>
           <button
@@ -52,6 +53,7 @@ function Header() {
           <div className="md:hidden">
             <Link to="/" className="block py-2 hover:text-gray-300" onClick={toggleMenu}>Home</Link>
             <Link to="/about" className="block py-2 hover:text-gray-300" onClick={toggleMenu}>About</Link>
+            <Link to="/dental" className="block py-2 hover:text-gray-300" onClick={toggleMenu}>Dental</Link>
             <Link to="/contact" className="block py-2 hover:text-gray-300" onClick={toggleMenu}>Contact</Link>
           </div>
         )}

@@ -10,6 +10,26 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import DentistryClinic from './pages/Dental'
 
+// Shop Pages - Listings and Details per category
+import ClinicListing from './pages/shops/clinic/Listing';
+import ClinicDetail from './pages/shops/clinic/Detail';
+import BakeryListing from './pages/shops/bakery/Listing';
+import BakeryDetail from './pages/shops/bakery/Detail';
+import WholesaleListing from './pages/shops/wholesale/Listing';
+import WholesaleDetail from './pages/shops/wholesale/Detail';
+import GeneralStoreListing from './pages/shops/general-store/Listing';
+import GeneralStoreDetail from './pages/shops/general-store/Detail';
+import ShoeStoreListing from './pages/shops/shoe-store/Listing';
+import ShoeStoreDetail from './pages/shops/shoe-store/Detail';
+import DepartmentalStoreListing from './pages/shops/departmental-store/Listing';
+import DepartmentalStoreDetail from './pages/shops/departmental-store/Detail';
+import TailoringListing from './pages/shops/tailoring/Listing';
+import TailoringDetail from './pages/shops/tailoring/Detail';
+import ClothesListing from './pages/shops/clothes/Listing';
+import ClothesDetail from './pages/shops/clothes/Detail';
+import ComponentShowcase from './pages/ComponentShowcase';
+import SearchResults from './pages/SearchResults';
+
 function App() {
   return (
     <Router>
@@ -22,6 +42,31 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/dental" element={<DentistryClinic />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/search" element={<SearchResults />} />
+          
+          {/* Shop Pages - Listings */}
+          <Route path="/clinic" element={<ClinicListing />} />
+          <Route path="/bakery" element={<BakeryListing />} />
+          <Route path="/wholesale" element={<WholesaleListing />} />
+          <Route path="/general-store" element={<GeneralStoreListing />} />
+          <Route path="/shoe-store" element={<ShoeStoreListing />} />
+          <Route path="/departmental-store" element={<DepartmentalStoreListing />} />
+          <Route path="/tailoring" element={<TailoringListing />} />
+          <Route path="/clothes" element={<ClothesListing />} />
+
+          {/* Shop Pages - Details */}
+          <Route path="/clinic/:id" element={<ClinicDetail />} />
+          <Route path="/bakery/:id" element={<BakeryDetail />} />
+          <Route path="/wholesale/:id" element={<WholesaleDetail />} />
+          <Route path="/general-store/:id" element={<GeneralStoreDetail />} />
+          <Route path="/shoe-store/:id" element={<ShoeStoreDetail />} />
+          <Route path="/departmental-store/:id" element={<DepartmentalStoreDetail />} />
+          <Route path="/tailoring/:id" element={<TailoringDetail />} />
+          <Route path="/clothes/:id" element={<ClothesDetail />} />
+          
+          {/* Component Showcase */}
+          <Route path="/component-showcase" element={<ComponentShowcase />} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
