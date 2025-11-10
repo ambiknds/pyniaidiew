@@ -8,7 +8,6 @@ import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import About from './pages/About'
 import Contact from './pages/Contact'
-import DentistryClinic from './pages/Dental'
 
 // Shop Pages - Listings and Details per category
 import ClinicListing from './pages/shops/clinic/Listing';
@@ -27,6 +26,12 @@ import TailoringListing from './pages/shops/tailoring/Listing';
 import TailoringDetail from './pages/shops/tailoring/Detail';
 import ClothesListing from './pages/shops/clothes/Listing';
 import ClothesDetail from './pages/shops/clothes/Detail';
+import RestaurantListing from './pages/shops/restaurant/Listing';
+import RestaurantDetail from './pages/shops/restaurant/Detail';
+import ElectronicsListing from './pages/shops/electronics/Listing';
+import ElectronicsDetail from './pages/shops/electronics/Detail';
+import FastfoodListing from './pages/shops/fastfood/Listing'
+import FastfoodDetail from './pages/shops/fastfood/Detail';
 import ComponentShowcase from './pages/ComponentShowcase';
 import SearchResults from './pages/SearchResults';
 
@@ -40,7 +45,6 @@ function App() {
           <Route path="/products" element={<ProductListingPage />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/about" element={<About />} />
-          <Route path="/dental" element={<DentistryClinic />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/search" element={<SearchResults />} />
           
@@ -53,16 +57,22 @@ function App() {
           <Route path="/departmental-store" element={<DepartmentalStoreListing />} />
           <Route path="/tailoring" element={<TailoringListing />} />
           <Route path="/clothes" element={<ClothesListing />} />
+          <Route path="/restaurant" element={<RestaurantListing />} />
+          <Route path="/electronics" element={<ElectronicsListing />} />
+          <Route path="/fastfood" element={<FastfoodListing />} />
 
           {/* Shop Pages - Details */}
-          <Route path="/clinic/:id" element={<ClinicDetail />} />
-          <Route path="/bakery/:id" element={<BakeryDetail />} />
-          <Route path="/wholesale/:id" element={<WholesaleDetail />} />
-          <Route path="/general-store/:id" element={<GeneralStoreDetail />} />
-          <Route path="/shoe-store/:id" element={<ShoeStoreDetail />} />
-          <Route path="/departmental-store/:id" element={<DepartmentalStoreDetail />} />
-          <Route path="/tailoring/:id" element={<TailoringDetail />} />
-          <Route path="/clothes/:id" element={<ClothesDetail />} />
+          <Route path="/clinic/:id" element={<ClinicDetail category="clinic" />} />
+          <Route path="/bakery/:id" element={<BakeryDetail category="bakery" />} />
+          <Route path="/wholesale/:id" element={<WholesaleDetail category="wholesale" />} />
+          <Route path="/general-store/:id" element={<GeneralStoreDetail category="general-store" />} />
+          <Route path="/shoe-store/:id" element={<ShoeStoreDetail category="shoe-store" />} />
+          <Route path="/departmental-store/:id" element={<DepartmentalStoreDetail category="departmental-store" />} />
+          <Route path="/tailoring/:id" element={<TailoringDetail category="tailoring" />} />
+          <Route path="/clothes/:id" element={<ClothesDetail category="clothes" />} />
+          <Route path="/restaurant/:id" element={<RestaurantDetail category="restaurant" />} />
+          <Route path="/electronics/:id" element={<ElectronicsDetail category="electronics" />} />
+          <Route path="/fastfood/:id" element={<FastfoodDetail category="fastfood" />} />
           
           {/* Component Showcase */}
           <Route path="/component-showcase" element={<ComponentShowcase />} />

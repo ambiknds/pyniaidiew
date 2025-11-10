@@ -1,11 +1,49 @@
 import axios from 'axios';
+import sampleShops, { mockApi } from '../data/sampleData';
 
 // Vite env var: define in .env as VITE_API_BASE_URL=https://...
 const API_BASE_URL = import.meta?.env?.VITE_API_BASE_URL || 'https://pyniaidiew-api.vercel.app';
+const USE_MOCK = import.meta.env.DEV; // Use mock data in development
 
-export const api = axios.create({
+// Create axios instance for real API calls
+const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
 });
+
+// Wrap API calls to handle both mock and real data
+export const api = {
+  get: async (url, config = {}) => {
+    if (USE_MOCK) {
+      // Handle mock API calls
+      if (url.startsWith('/api/shops/')) {
+        const parts = url.split('/');
+        const category = parts[3];
+        const id = parts[4];
+        
+        if (id) {
+          return { data: await mockApi.getShopById(category, id) };
+        }
+        return { data: await mockApi.getShopsByCategory(category) };
+      }
+      
+      if (url === '/api/products') {
+        return { data: await mockApi.getProducts() };
+      }
+      
+      if (url.startsWith('/api/products/')) {
+        const id = url.split('/').pop();
+        return { data: await mockApi.getProductById(id) };
+      }
+      
+      if (url === '/api/shops/search') {
+        return { data: await mockApi.searchShops(config.params?.q || '') };
+      }
+    }
+    
+    // Fall back to real API
+    return axiosInstance.get(url, config);
+  }
+};
 
 // Known categories for shops (adjust to match backend)
 export const SHOP_CATEGORIES = [
