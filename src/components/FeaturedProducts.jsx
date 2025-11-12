@@ -7,8 +7,9 @@ export default function FeaturedProducts() {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      const url = import.meta.env.VITE_API_BASE_URL
       try {
-        const response = await axios.get('https://pyniaidiew-api.vercel.app/api/products');
+        const response = await axios.get(`${url}/api/products`);
         
         const shuffled = response.data.sort(() => 0.5 - Math.random());
         setProducts(shuffled.slice(0, 9));

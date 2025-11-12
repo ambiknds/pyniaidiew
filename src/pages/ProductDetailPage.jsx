@@ -8,8 +8,9 @@ function ProductDetailPage() {
 
   useEffect(() => {
     const fetchProduct = async () => {
+      const url = import.meta.env.VITE_API_BASE_URL
       try {
-        const response = await axios.get(`https://pyniaidiew-api.vercel.app/api/products/${id}`);
+        const response = await axios.get(`${url}/api/products/${id}`);
         console.log(response);
         
         setProduct(response.data);
