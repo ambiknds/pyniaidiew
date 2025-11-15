@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { searchProducts, searchShops } from '../services/api';
+import { mockApi } from '../data/sampleData';
 
 function useQuery() {
   const { search } = useLocation();
@@ -26,25 +26,25 @@ export default function SearchResults() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const run = async () => {
-      if (!q || q.trim().length < 1) return;
+    const searchAll = async () => {
       try {
         setLoading(true);
-        setError(null);
-        const [p, s] = await Promise.all([
-          searchProducts(q),
-          searchShops(q),
+        // Using searchShops for both products and shops since we only have shop data
+        const [productsData, shopsData] = await Promise.all([
+          mockApi.searchShops(q),
+          mockApi.searchShops(q)
         ]);
-        setProducts(Array.isArray(p) ? p : []);
-        setShops(Array.isArray(s) ? s : []);
-      } catch (e) {
-        console.error(e);
-        setError('Failed to search.');
+        setProducts(productsData || []);
+        setShops(shopsData || []);
+        setError(null);
+      } catch (err) {
+        console.error('Search error:', err);
+        setError('Failed to load search results');
       } finally {
         setLoading(false);
       }
     };
-    run();
+    searchAll();
   }, [q]);
 
   return (

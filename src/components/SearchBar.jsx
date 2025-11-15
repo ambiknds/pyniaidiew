@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { searchProducts, searchShops } from '../services/api';
+import { mockApi } from '../data/sampleData';
 
 function SearchBar() {
   const [query, setQuery] = useState('');
@@ -16,16 +16,16 @@ function SearchBar() {
       if (query.length > 2) {
         setIsLoading(true);
         try {
-          const [p, s] = await Promise.all([
-            searchProducts(query),
-            searchShops(query),
+          const [products, shops] = await Promise.all([
+            mockApi.searchShops(query), // Using searchShops for both for now
+            mockApi.searchShops(query)
           ]);
-          const productItems = (p || []).slice(0, 5).map(item => ({
+          const productItems = (products || []).slice(0, 5).map(item => ({
             type: 'product',
             id: item.id,
             title: item.title,
           }));
-          const shopItems = (s || []).slice(0, 5).map(item => ({
+          const shopItems = (shops || []).slice(0, 5).map(item => ({
             type: 'shop',
             id: item.id || item._id,
             title: item.title || item.name || item.shopName,
