@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { fetchShopsByCategory } from '../../services/api';
+import { mockApi } from '../../data/sampleData';
 
 function ShopListing({ category, title }) {
   const [items, setItems] = useState([]);
@@ -13,7 +13,7 @@ function ShopListing({ category, title }) {
     const load = async () => {
       try {
         setLoading(true);
-        const data = await fetchShopsByCategory(category);
+        const data = await mockApi.getShopsByCategory(category);
         setItems(Array.isArray(data) ? data : []);
         setError(null);
       } catch (err) {

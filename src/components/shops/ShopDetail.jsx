@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchShopById } from '../../services/api';
+import { mockApi } from '../../data/sampleData';
 import ShopTemplate from './ShopTemplate';
 
 function normalizeShopToTemplate(shop) {
@@ -64,7 +64,7 @@ function ShopDetail({ category }) {
     const load = async () => {
       try {
         setLoading(true);
-        const data = await fetchShopById(category, id);
+        const data = await mockApi.getShopById(category, id);
         setShop(data);
         setError(null);
       } catch (err) {

@@ -1,8 +1,6 @@
-// Sample data for development
-// This will be used when the backend API is not available
-
+// Sample shop data for development
 const sampleShops = {
-  'clinic': [
+  clinic: [
     {
       id: 'clinic1',
       title: 'City Health Clinic',
@@ -263,50 +261,60 @@ export const sampleProducts = [
 // Helper function to simulate API delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Export the sample data
-export default sampleShops;
+// Map app category slugs to available sample categories
+const categoryAliases = {
+  'departmental-store': 'electronics',
+  'general-store': 'electronics',
+  'shoe-store': 'electronics',
+  'wholesale': 'electronics',
+  'tailoring': 'clinic',
+  'clothes': 'electronics',
+  'fastfood': 'restaurant',
+};
 
+const resolveCategory = (category) => categoryAliases[category] || category;
+
+// Mock API implementation
 export const mockApi = {
   async getShopsByCategory(category) {
-    await delay(500); // Simulate network delay
-    return sampleShops[category] || [];
+    const resolved = resolveCategory(category);
+    const data = sampleShops[resolved];
+    if (Array.isArray(data)) {
+      return data;
+    }
+    // Fallback: aggregate sample shops when category is missing
+    return Object.values(sampleShops).flat();
   },
   
   async getShopById(category, id) {
-    await delay(300);
-    const shops = sampleShops[category] || [];
-    return shops.find(shop => shop.id === id) || null;
+    const resolved = resolveCategory(category);
+    const shops = sampleShops[resolved];
+    if (Array.isArray(shops)) {
+      const found = shops.find(shop => shop.id === id);
+      if (found) return found;
+    }
+    // Fallback: search across all categories
+    for (const arr of Object.values(sampleShops)) {
+      const found = arr.find(shop => shop.id === id);
+      if (found) return found;
+    }
+    return null;
   },
   
   async searchShops(query) {
-    await delay(400);
     const results = [];
-    Object.values(sampleShops).forEach(categoryShops => {
-      categoryShops.forEach(shop => {
-        if ((shop.title || shop.name || '').toLowerCase().includes(query.toLowerCase())) {
-          results.push(shop);
+    const searchTerm = (query || '').toLowerCase();
+    
+    for (const [categoryKey, shops] of Object.entries(sampleShops)) {
+      for (const shop of shops) {
+        const shopName = (shop.title || shop.name || '').toLowerCase();
+        if (shopName.includes(searchTerm)) {
+          results.push({ ...shop, category: categoryKey });
         }
-      });
-    });
+      }
+    }
     return results;
-  },
-  
-  async getProducts() {
-    await delay(400);
-    return sampleProducts;
-  },
-  
-  async getProductById(id) {
-    await delay(300);
-    return sampleProducts.find(p => p.id === id) || null;
-  },
-  
-  async searchProducts(query) {
-    await delay(400);
-    const q = query.toLowerCase();
-    return sampleProducts.filter(p => 
-      p.title.toLowerCase().includes(q) || 
-      p.description.toLowerCase().includes(q)
-    );
   }
 };
+
+export default sampleShops;
