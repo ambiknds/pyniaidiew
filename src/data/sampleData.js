@@ -261,26 +261,55 @@ export const sampleProducts = [
 // Helper function to simulate API delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+// Map app category slugs to available sample categories
+const categoryAliases = {
+  'departmental-store': 'electronics',
+  'general-store': 'electronics',
+  'shoe-store': 'electronics',
+  'wholesale': 'electronics',
+  'tailoring': 'clinic',
+  'clothes': 'electronics',
+  'fastfood': 'restaurant',
+};
+
+const resolveCategory = (category) => categoryAliases[category] || category;
+
 // Mock API implementation
 export const mockApi = {
   async getShopsByCategory(category) {
-    return sampleShops[category] || [];
+    const resolved = resolveCategory(category);
+    const data = sampleShops[resolved];
+    if (Array.isArray(data)) {
+      return data;
+    }
+    // Fallback: aggregate sample shops when category is missing
+    return Object.values(sampleShops).flat();
   },
   
   async getShopById(category, id) {
-    const shops = sampleShops[category] || [];
-    return shops.find(shop => shop.id === id) || null;
+    const resolved = resolveCategory(category);
+    const shops = sampleShops[resolved];
+    if (Array.isArray(shops)) {
+      const found = shops.find(shop => shop.id === id);
+      if (found) return found;
+    }
+    // Fallback: search across all categories
+    for (const arr of Object.values(sampleShops)) {
+      const found = arr.find(shop => shop.id === id);
+      if (found) return found;
+    }
+    return null;
   },
   
   async searchShops(query) {
     const results = [];
-    const searchTerm = query.toLowerCase();
+    const searchTerm = (query || '').toLowerCase();
     
-    for (const [category, shops] of Object.entries(sampleShops)) {
+    for (const [categoryKey, shops] of Object.entries(sampleShops)) {
       for (const shop of shops) {
         const shopName = (shop.title || shop.name || '').toLowerCase();
         if (shopName.includes(searchTerm)) {
-          results.push({ ...shop, category });
+          results.push({ ...shop, category: categoryKey });
         }
       }
     }
